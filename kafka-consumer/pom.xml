@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>me.chdm</groupId>
-    <artifactId>KafkaConsumer</artifactId>
+    <artifactId>kafka-consumer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>KafkaConsumer</name>
     <description>KafkaConsumer</description>

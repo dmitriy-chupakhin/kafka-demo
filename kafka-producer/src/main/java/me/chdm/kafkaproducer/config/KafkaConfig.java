@@ -2,9 +2,11 @@ package me.chdm.kafkaproducer.config;
 
 import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -16,13 +18,16 @@ import java.util.Map;
 @EnableScheduling
 @Configuration
 @AllArgsConstructor
+@PropertySource("classpath:application.yml")
 public class KafkaConfig {
 
     private final KafkaProperties kafkaProperties;
 
+    @Value("${topic.name}")
+    private String topicName;
+
     @Bean
     public ProducerFactory<String, String> producerFactory() {
-        // get configs on application.properties/yml
         Map<String, Object> properties = kafkaProperties.buildProducerProperties();
         return new DefaultKafkaProducerFactory<>(properties);
     }
@@ -34,7 +39,7 @@ public class KafkaConfig {
 
     @Bean
     public NewTopic topic() {
-        return TopicBuilder.name("t.food.order")
+        return TopicBuilder.name(topicName)
                 .partitions(1)
                 .replicas(1)
                 .build();
